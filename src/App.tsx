@@ -1,7 +1,13 @@
+import TodoList from "./TodoList";
 import GlobalStyle from "./styles/GlobalStyle";
 
 function App() {
-  return <GlobalStyle />;
+  return (
+    <>
+      <GlobalStyle />
+      <TodoList />
+    </>
+  );
 }
 
 export default App;
