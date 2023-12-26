@@ -1,6 +1,7 @@
 import { atom } from "recoil";
+import { IToDo } from "../models/toDo";
 
-export const applyThemeState = atom({
-  key: "",
-  default: "",
+export const toDoState = atom<IToDo[]>({
+  key: "toDo",
+  default: [],
 });

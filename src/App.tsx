@@ -1,4 +1,4 @@
-import TodoList from "./TodoList";
+import TodoList from "./components/TodoList";
 import GlobalStyle from "./styles/GlobalStyle";
 
 function App() {
