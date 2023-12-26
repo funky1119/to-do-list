@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 import { validation } from "./utils/ValidationCheck";
 import { IFormData } from "./models/formData";
+// react hook 가이드
 function TodoList() {
   /**
    * handleSubmit => 1번째 인자: 데이터가 유효했을때 호출되는 함수
