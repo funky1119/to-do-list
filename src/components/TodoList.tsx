@@ -1,33 +1,59 @@
-import { useRecoilState, useRecoilValue } from "recoil";
-import { categoryState, toDoSelector, toDoState } from "../state/atorms";
+import { useRecoilValue } from "recoil";
+import { toDoSelector } from "../state/atorms";
 import CreateTodo from "./CreateTodo";
 import Todo from "./Todo";
-import { CATEGORY } from "../models/toDo";
+import styled from "styled-components";
+import CategorySelect from "./CategorySelect";
+import DeleteTodo from "./DeleteTodo";
 
 function TodoList() {
   const toDos = useRecoilValue(toDoSelector);
-  const [category, setCategory] = useRecoilState(categoryState);
-  const onInput = (event: React.FormEvent<HTMLSelectElement>) => {
-    setCategory(event.currentTarget.value as CATEGORY);
-  };
 
   return (
-    <div>
-      <h1>To Dos</h1>
+    <Container>
+      <Title>To Dos</Title>
       <hr />
-      <select value={category} onInput={onInput}>
-        <option value={CATEGORY.TO_DO}>To Do</option>
-        <option value={CATEGORY.DOING}>Doing</option>
-        <option value={CATEGORY.DONE}>Done</option>
-      </select>
-      <CreateTodo />
-      <ul>
-        {toDos.map((todo) => (
-          <Todo key={todo.id} {...todo} />
-        ))}
-      </ul>
-    </div>
+      <Wrapper>
+        <TodoActionForm>
+          <CategorySelect />
+          <CreateTodo />
+          <DeleteTodo />
+        </TodoActionForm>
+        <Ul>
+          {toDos.map((todo) => (
+            <Todo key={todo.id} {...todo} />
+          ))}
+        </Ul>
+      </Wrapper>
+    </Container>
   );
 }
 
 export default TodoList;
+
+const Container = styled.div`
+  padding: 0 20px;
+  margin: 0 auto;
+  max-width: 580px;
+`;
+
+const Title = styled.h1`
+  font-size: 38px;
+  font-weight: 600;
+  text-align: center;
+  padding: 20px 0 10px;
+`;
+const Wrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+`;
+
+const TodoActionForm = styled.div`
+  display: flex;
+`;
+
+const Ul = styled.ul`
+  margin: 20px 0;
+`;

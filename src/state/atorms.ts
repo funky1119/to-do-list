@@ -11,6 +11,11 @@ export const toDoState = atom<IToDo[]>({
   default: [],
 });
 
+export const deleteTodoState = atom<string[]>({
+  key: "deleteTodo",
+  default: [],
+});
+
 export const toDoSelector = selector({
   key: "toDoSelector",
   get: ({ get }) => {
