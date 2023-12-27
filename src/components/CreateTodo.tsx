@@ -1,27 +1,45 @@
 import { IFormData } from "../models/formData";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { categoryState, toDoState } from "../state/atorms";
+import {
+  categoryListState,
+  categoryState,
+  isCreateCategoryState,
+  toDoState,
+} from "../state/atorms";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
 
 function CreateTodo() {
   const { register, handleSubmit, setValue } = useForm<IFormData>();
+  const isCreateCategory = useRecoilValue(isCreateCategoryState);
   const setToDos = useSetRecoilState(toDoState);
   const category = useRecoilValue(categoryState);
+  const setCategoryList = useSetRecoilState(categoryListState);
 
   const handleValid = (data: IFormData) => {
-    setToDos((prev) => [
-      { id: Date.now(), text: data.todo, category },
-      ...prev,
-    ]);
-    setValue("todo", "");
+    if (isCreateCategory) {
+      setCategoryList((prev) => [
+        {
+          id: Date.now(),
+          category: data.todo,
+        },
+        ...prev,
+      ]);
+      setValue("todo", "");
+    } else {
+      setToDos((prev) => [
+        { id: Date.now(), text: data.todo, category },
+        ...prev,
+      ]);
+      setValue("todo", "");
+    }
   };
 
   return (
     <form onSubmit={handleSubmit(handleValid)}>
       <Input
-        {...register("todo", { required: "할 일을 작성해주세요" })}
-        placeholder="Write a to do"
+        {...register("todo", { required: "입력해 주세요." })}
+        placeholder={`Write a ${isCreateCategory ? "category" : "to do"}`}
       />
       <Button>Add</Button>
     </form>
@@ -34,7 +52,7 @@ const Input = styled.input`
   height: 30px;
   width: 230px;
   border-radius: 10px;
-  padding: 0 5px;
+  padding: 0 10px;
   margin: 0 10px 0 20px;
   border-radius: 2px solid transparent;
   box-shadow: 0 0 10px rgba(245, 151, 29, 0.8); /* 형광 효과를 주는 box-shadow 설정 */

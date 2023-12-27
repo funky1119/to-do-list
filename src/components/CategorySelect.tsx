@@ -1,19 +1,22 @@
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { CATEGORY } from "../models/toDo";
-import { categoryState } from "../state/atorms";
+import { categoryListState, categoryState } from "../state/atorms";
 import styled from "styled-components";
 
 function CategorySelect() {
   const [category, setCategory] = useRecoilState(categoryState);
+  const categoryList = useRecoilValue(categoryListState);
   const onInput = (event: React.FormEvent<HTMLSelectElement>) => {
-    setCategory(event.currentTarget.value as CATEGORY);
+    setCategory(event.currentTarget.value);
   };
 
   return (
     <Select value={category} onInput={onInput}>
-      <Option value={CATEGORY.TO_DO}>To Do</Option>
-      <Option value={CATEGORY.DOING}>Doing</Option>
-      <Option value={CATEGORY.DONE}>Done</Option>
+      {categoryList.map((item) => (
+        <Option key={item.id} value={item.category}>
+          {item.category}
+        </Option>
+      ))}
     </Select>
   );
 }

@@ -1,25 +1,43 @@
 import { IFormData } from "../models/formData";
-import { useRecoilState, useSetRecoilState } from "recoil";
-import { deleteTodoState, toDoState } from "../state/atorms";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import {
+  categoryListState,
+  deleteCategoryState,
+  deleteTodoState,
+  isCreateCategoryState,
+  toDoState,
+} from "../state/atorms";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
 
 function DeleteTodo() {
   const { handleSubmit } = useForm<IFormData>();
   const setToDos = useSetRecoilState(toDoState);
+  const setCategoryList = useSetRecoilState(categoryListState);
   const [deleteTodo, setDeleteTodo] = useRecoilState(deleteTodoState);
+  const isCreateCategory = useRecoilValue(isCreateCategoryState);
+  const [deleteCategory, setDeleteCategory] =
+    useRecoilState(deleteCategoryState);
+
+  const isDeleteButton = deleteTodo.length > 0 || deleteCategory.length > 0;
 
   const handleValid = (data: IFormData) => {
-    setToDos((prev) =>
-      prev.filter((item) => !deleteTodo.includes(item.id.toString()))
-    );
-    setDeleteTodo([]);
+    if (isCreateCategory) {
+      setCategoryList((prev) =>
+        prev.filter((item) => !deleteCategory.includes(item.id.toString()))
+      );
+      setDeleteCategory([]);
+    } else {
+      setToDos((prev) =>
+        prev.filter((item) => !deleteTodo.includes(item.id.toString()))
+      );
+      setDeleteTodo([]);
+    }
   };
-  console.log(deleteTodo.length);
 
   return (
     <>
-      {deleteTodo.length > 0 && (
+      {isDeleteButton && (
         <form onSubmit={handleSubmit(handleValid)}>
           <Button>Delete</Button>
         </form>
