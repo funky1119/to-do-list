@@ -61,5 +61,5 @@
     "@types/react-router-dom": "^5.3.3",
     "file-loader": "^6.2.0"
   },
-  "homepage": "https://funky1119.github.io/toDoList"
+  "homepage": "https://funky1119.github.io/to-do-list"
 }
